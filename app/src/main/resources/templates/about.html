@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="ja" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:text="${pageTitle}">About Page</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            font-family: "Inter", sans-serif;
+        }
+    </style>
+</head>
+<body class="bg-gray-100 min-h-screen flex flex-col items-center justify-center p-4">
+    <div class="bg-white p-8 rounded-lg shadow-md max-w-lg w-full text-center">
+        <h1 class="text-4xl font-bold text-gray-800 mb-4" th:text="${pageTitle}">About Us (Placeholder)</h1>
+        <p class="text-lg text-gray-600 mb-6" th:text="${content}">Content goes here. (Placeholder)</p>
+        <a href="/" class="mt-8 inline-block bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-lg transition duration-300 ease-in-out">
+            Go back to Home
+        </a>
+    </div>
+</body>
+</html>

@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<!-- Thymeleafの名前空間を宣言。これにより、th:属性が有効になる -->
+<html lang="ja" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thymeleaf Demo</title>
+    <!-- Tailwind CSSをCDNで読み込む -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Interフォントを適用 */
+        body {
+            font-family: "Inter", sans-serif;
+        }
+    </style>
+</head>
+<body class="bg-gray-100 min-h-screen flex flex-col items-center justify-center p-4">
+    <div class="bg-white p-8 rounded-lg shadow-md max-w-lg w-full text-center">
+        <!-- コントローラーから渡された "message" 変数の値を表示 -->
+        <!-- th:text は要素のテキストコンテンツを設定する -->
+        <h1 class="text-4xl font-bold text-gray-800 mb-4" th:text="${message}">Hello, World! (Placeholder)</h1>
+
+        <!-- コントローラーから渡された "greeting" 変数の値を表示 -->
+        <p class="text-lg text-gray-600 mb-6" th:text="${greeting}">Welcome! (Placeholder)</p>
+
+        <div class="mb-6">
+            <h2 class="text-2xl font-semibold text-gray-700 mb-3">Items List:</h2>
+            <ul class="list-disc list-inside text-left mx-auto max-w-xs">
+                <!-- コントローラーから渡された "items" リストをループ処理 -->
+                <!-- th:each はリストの各要素に対して要素を繰り返し生成する -->
+                <li th:each="item : ${items}" class="text-gray-700 py-1 border-b border-gray-200 last:border-b-0" th:text="${item}">
+                    List Item (Placeholder)
+                </li>
+            </ul>
+        </div>
+
+        <p class="text-sm text-gray-500 mt-6">
+            <!-- URLパラメータの例: http://localhost:8080/?name=Alice -->
+            Try adding <code class="bg-gray-200 p-1 rounded">?name=YourName</code> to the URL!
+        </p>
+
+        <a href="/about" class="mt-8 inline-block bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-lg transition duration-300 ease-in-out">
+            Go to About Page
+        </a>
+    </div>
+</body>
+</html>
