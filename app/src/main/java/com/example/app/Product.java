@@ -20,7 +20,7 @@ public class Product {
 
   private int howManyPeple;
 
-  private int playTime;
+  private String playTime;
 
   private String url;
 
@@ -28,7 +28,7 @@ public class Product {
   public Product() {
   }
 
-  public Product(String name, String author, int howManyPeple, int playTime, String url) {
+  public Product(String name, String author, int howManyPeple, String playTime, String url) {
     this.name = name;
     this.author = author;
     this.howManyPeple = howManyPeple;
@@ -69,11 +69,11 @@ public class Product {
     this.howManyPeple = howManyPeple;
   }
 
-  public int getPlayTime() {
+  public String getPlayTime() {
     return playTime;
   }
 
-  public void setPlayTime(int playTime) {
+  public void setPlayTime(String playTime) {
     this.playTime = playTime;
   }
 

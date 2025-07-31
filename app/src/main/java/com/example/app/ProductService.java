@@ -46,7 +46,7 @@ public class ProductService {
     if (productDetails.getHowManyPeple() != 0) { // 例: 0はデフォルト値であり、明示的な0でない場合のみ更新
         product.setHowManyPeple(productDetails.getHowManyPeple());
     }
-    if (productDetails.getPlayTime() != 0) { // 同上
+    if (productDetails.getPlayTime() != null) { // 同上
         product.setPlayTime(productDetails.getPlayTime());
     }
     if (productDetails.getUrl() != null) {

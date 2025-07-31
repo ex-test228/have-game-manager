@@ -1,7 +1,5 @@
 package com.example.app;
 
-// import com.example.app.Product;
-// import com.example.app.ProductService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

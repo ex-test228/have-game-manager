@@ -39,14 +39,14 @@ public class Application {
 
   @PostMapping("/add")
   @ResponseBody // HTMLを返さずに文字列を直接ブラウザに表示
-  public String handleSubmitForm(@RequestParam("gameName") String gameName,
+  public String handleSubmitForm(@RequestParam("name") String name,
       @RequestParam("number") String number) {
 
     // 受け取ったデータを処理
-    System.out.println(gameName);
+    System.out.println(name);
     System.out.println(number);
 
-    String text = gameName + " " + number;
+    String text = name + " " + number;
 
     return "ゲーム名 '" + text + "' が追加されました。";
 

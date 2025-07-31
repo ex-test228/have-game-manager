@@ -10,17 +10,99 @@
 
   <section>
     <h2>ゲーム一覧</h2>
-    <ul>
-      <li th:each="game : ${games}" th:text="${game}">ゲーム名 (Placeholder)</li>
-    </ul>
+    <table>
+      <thead>
+        <tr>
+          <th>ゲーム名</th>
+          <th>作者</th>
+          <th>人数</th>
+          <th>プレイ時間</th>
+          <th>URL</th>
+        </tr>
+      </thead>
+      <!-- <tbody>
+        <tr th:each="game : ${games}">
+          <td th:text="${game.name}">ゲーム名 (Placeholder)</td>
+          <td th:text="${game.author}">作者 (Placeholder)</td>
+          <td th:text="${game.howManyPeple}">人数 (Placeholder)</td>
+          <td th:text="${game.playTime}">プレイ時間 (Placeholder)</td>
+          <td><a th:href="${game.url}" th:text="${game.url}">URL (Placeholder)</a></td>
+        </tr>
+      </tbody> -->
+    </table>
   </section>
 
-  <form action="/add" method="post">
+
     <h2>ゲーム追加</h2>
-    <label for="gameName">ゲーム名:</label>
-    <input type="text" id="gameName" name="gameName" required>
-    <input type="number" name="number" value="999"/>
-    <button type="submit">追加</button>
-  </form>
+    <label for="name">ゲーム名:</label>
+    <input type="text" id="name" name="name" value="testname" required>
+    <label for="author">作者:</label>
+    <input type="text" id="author" name="author" value="testauthor" required>
+    <label for="peaple">人数:</label>
+    <input type="number" id="peaple" name="peaple" value="2">
+    <label for="time">プレイ時間:</label>
+    <input type="text" id="time" name="time" value="30">
+    <label for="url">URL:</label>
+    <input type="text" id="url" name="url">
+    <button type="submit" id="addButton">追加</button>
+
+  <script>
+
+    addEventListener('DOMContentLoaded', () => {
+      // ゲーム一覧を取得して表示する処理
+      fetch('http://localhost:8080/api/products')
+        .then(response => response.json())
+        .then(data => {
+          const tbody = document.querySelector('table tbody');
+          data.forEach(game => {
+            const row = document.createElement('tr');
+            row.innerHTML = `
+              <td>${game.name}</td>
+              <td>${game.author}</td>
+              <td>${game.howManyPeple}</td>
+              <td>${game.playTime}</td>
+              <td><a href="${game.url}">${game.url}</a></td>
+            `;
+            tbody.appendChild(row);
+          });
+        })
+        .catch(error => console.error('Error fetching games:', error));
+    });
+
+    const addButton = document.getElementById('addButton');
+
+addButton.addEventListener('click', () =>{
+const addName = document.getElementById('name').value;
+const addAuthor = document.getElementById('author').value;
+const addHowManyPeple = document.getElementById('peaple').value;
+const addPlayTime = document.getElementById('time').value;
+const addUrl = document.getElementById('url').value;
+
+// 更新データ
+const updatedData = {
+    name: addName,
+    author: addAuthor,
+    howManyPeple: addHowManyPeple,
+    playTime: addPlayTime,
+    url: addUrl
+};
+
+fetch('http://localhost:8080/api/products', { 
+    method: 'POST', // <-- POSTメソッドを指定
+    headers: {
+        'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(updatedData) // <-- 更新するJSONデータをボディに含める
+})
+.then(response => {
+    if (response.ok) {
+        return response.json();
+    }
+    throw new Error('Add failed: ' + response.status);
+})
+.then(data => console.log('Add product:', data))
+.catch(error => console.error('Error:', error));
+})
+  </script>
 </body>
 </html>
