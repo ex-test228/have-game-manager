@@ -18,8 +18,13 @@
           <th>人数</th>
           <th>プレイ時間</th>
           <th>URL</th>
+          <th>変更</th>
+          <th>削除</th>
         </tr>
       </thead>
+      <tbody>
+
+      </tbody>
       <!-- <tbody>
         <tr th:each="game : ${games}">
           <td th:text="${game.name}">ゲーム名 (Placeholder)</td>
@@ -50,7 +55,8 @@
 
     addEventListener('DOMContentLoaded', () => {
       // ゲーム一覧を取得して表示する処理
-      fetch('http://localhost:8080/api/products')
+      fetch('http://localhost:8080/api/products',
+      {method: 'GET'})
         .then(response => response.json())
         .then(data => {
           const tbody = document.querySelector('table tbody');
@@ -62,6 +68,8 @@
               <td>${game.howManyPeple}</td>
               <td>${game.playTime}</td>
               <td><a href="${game.url}">${game.url}</a></td>
+              <td><button class="editButton" data-id="${game.id}">変更</button></td>
+              <td><button class="deleteButton" data-id="${game.id}">削除</button></td>
             `;
             tbody.appendChild(row);
           });
@@ -103,6 +111,36 @@ fetch('http://localhost:8080/api/products', {
 .then(data => console.log('Add product:', data))
 .catch(error => console.error('Error:', error));
 })
+
+addEventListener('click', (event) => {
+  if (event.target.classList.contains('deleteButton')) {
+    const gameId = event.target.getAttribute('data-id');
+    fetch(`http://localhost:8080/api/products/${gameId}`, {
+      method: 'DELETE'
+    })
+      .then(response => {
+        if (response.ok) {
+          event.target.closest('tr').remove();
+          console.log('Game deleted successfully');
+        } else {
+          throw new Error('Delete failed: ' + response.status);
+        }
+      })
+      .catch(error => console.error('Error deleting game:', error));
+  }});
+
+  addEventListener('click', (event) => {
+    if (event.target.classList.contains('editButton')) {
+      const gameId = event.target.getAttribute('data-id');
+      const row = event.target.closest('tr');
+      const name = row.children[0].textContent;
+      const author = row.children[1].textContent;
+      const howManyPeple = row.children[2].textContent;
+      const playTime = row.children[3].textContent;
+      const url = row.children[4].querySelector('a').href;
+
+      // ここで編集用のフォームを表示する処理を追加
+}});
   </script>
 </body>
 </html>
