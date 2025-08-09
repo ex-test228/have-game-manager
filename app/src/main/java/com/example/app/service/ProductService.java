@@ -1,20 +1,27 @@
-package com.example.app;
+package com.example.app.service;
 
-// import com.example.app.Product;
-// import com.example.app.ProductRepository;
 import org.springframework.stereotype.Service;
+
+import com.example.app.entity.Product;
+import com.example.app.repository.ExpansionRepository;
+import com.example.app.repository.ProductRepository;
 
 import java.util.List;
 import java.util.Optional;
 
+@Autowired
 @Service // このクラスがSpringのサービスコンポーネントであることを示す
 public class ProductService {
 
     private final ProductRepository productRepository;
+    private final ExpansionRepository ExpansionRepository;
 
     // コンストラクタインジェクションでProductRepositoryを注入
-    public ProductService(ProductRepository productRepository) {
+    public ProductService(ProductRepository productRepository,ExpansionRepository ExpansionRepository) {
         this.productRepository = productRepository;
+        this.ExpansionRepository = ExpansionRepository;
+        // ExpansionRepositoryはProductServiceでは使用されていないが、将来の拡張のために保持している可能性があります。
+        // もし不要であれば、削除しても問題ありません。
     }
 
     public List<Product> getAllProducts() {

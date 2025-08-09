@@ -16,6 +16,7 @@
       <thead>
         <tr>
           <th>ゲーム名</th>
+          <th>拡張</th>
           <th>作者</th>
           <th>人数</th>
           <th>プレイ時間</th>
@@ -57,6 +58,14 @@
             const row = document.createElement('tr');
             row.innerHTML = `
               <td contenteditable="true">${game.name}</td>
+                <td>
+              ${game.expansion ? `
+               <details>
+              <summary>開く</summary>
+              ${game.expansion}
+              </details>
+                ` : ''}
+               </td>
               <td contenteditable="true">${game.author}</td>
               <td contenteditable="true">${game.howManyPeple}</td>
               <td contenteditable="true">${game.playTime}</td>
@@ -128,10 +137,10 @@
         const gameId = event.target.getAttribute('data-id');
         const row = event.target.closest('tr');
         const newName = row.children[0].textContent;
-        const newAuthor = row.children[1].textContent;
-        const newHowManyPeple = row.children[2].textContent;
-        const newPlayTime = row.children[3].textContent;
-        const newUrl = row.children[4].textContent;
+        const newAuthor = row.children[2].textContent;
+        const newHowManyPeple = row.children[3].textContent;
+        const newPlayTime = row.children[4].textContent;
+        const newUrl = row.children[5].textContent;
 
         const updatedData = {
           name: newName,

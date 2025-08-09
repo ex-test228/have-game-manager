@@ -1,9 +1,13 @@
-package com.example.app;
+package com.example.app.entity;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
+
+import java.util.List;
+
 import jakarta.persistence.Column;
 
 @Entity // このクラスがJPAエンティティであることを示す
@@ -12,6 +16,9 @@ public class Product {
   @Id // 主キーであることを示す
   @GeneratedValue(strategy = GenerationType.IDENTITY) // 自動生成されるID (AUTO_INCREMENT)
   private Long id;
+
+   @OneToMany(mappedBy = "product") // Expansionクラスのidフィールドにマッピング
+    private List<Expansion> expansions; // 1つのProductが複数のExpansionを持つ
 
   @Column(nullable = false) // カラム名を指定しない場合、フィールド名がそのままカラム名になる。nullable=falseでNOT NULL制約
   private String name;
