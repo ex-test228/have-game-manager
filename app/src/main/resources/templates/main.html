@@ -1,10 +1,12 @@
 <!DOCTYPE html>
 <html lang="ja" xmlns:th="http://www.thymeleaf.org">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Document</title>
 </head>
+
 <body>
   <h1>ボードゲーム管理</h1>
 
@@ -25,50 +27,41 @@
       <tbody>
 
       </tbody>
-      <!-- <tbody>
-        <tr th:each="game : ${games}">
-          <td th:text="${game.name}">ゲーム名 (Placeholder)</td>
-          <td th:text="${game.author}">作者 (Placeholder)</td>
-          <td th:text="${game.howManyPeple}">人数 (Placeholder)</td>
-          <td th:text="${game.playTime}">プレイ時間 (Placeholder)</td>
-          <td><a th:href="${game.url}" th:text="${game.url}">URL (Placeholder)</a></td>
-        </tr>
-      </tbody> -->
     </table>
   </section>
 
 
-    <h2>ゲーム追加</h2>
-    <label for="name">ゲーム名:</label>
-    <input type="text" id="name" name="name" value="testname" required>
-    <label for="author">作者:</label>
-    <input type="text" id="author" name="author" value="testauthor" required>
-    <label for="peaple">人数:</label>
-    <input type="number" id="peaple" name="peaple" value="2">
-    <label for="time">プレイ時間:</label>
-    <input type="text" id="time" name="time" value="30">
-    <label for="url">URL:</label>
-    <input type="text" id="url" name="url">
-    <button type="submit" id="addButton">追加</button>
+  <h2>ゲーム追加</h2>
+  <label for="name">ゲーム名:</label>
+  <input type="text" id="name" name="name" value="testname" required>
+  <label for="author">作者:</label>
+  <input type="text" id="author" name="author" value="testauthor" required>
+  <label for="peaple">人数:</label>
+  <input type="number" id="peaple" name="peaple" value="2">
+  <label for="time">プレイ時間:</label>
+  <input type="text" id="time" name="time" value="30">
+  <label for="url">URL:</label>
+  <input type="text" id="url" name="url">
+  <button type="submit" id="addButton">追加</button>
 
   <script>
 
     addEventListener('DOMContentLoaded', () => {
       // ゲーム一覧を取得して表示する処理
       fetch('http://localhost:8080/api/products',
-      {method: 'GET'})
+        { method: 'GET' })
         .then(response => response.json())
         .then(data => {
           const tbody = document.querySelector('table tbody');
           data.forEach(game => {
             const row = document.createElement('tr');
             row.innerHTML = `
-              <td>${game.name}</td>
-              <td>${game.author}</td>
-              <td>${game.howManyPeple}</td>
-              <td>${game.playTime}</td>
-              <td><a href="${game.url}">${game.url}</a></td>
-              <td><button class="editButton" data-id="${game.id}">変更</button></td>
+              <td contenteditable="true">${game.name}</td>
+              <td contenteditable="true">${game.author}</td>
+              <td contenteditable="true">${game.howManyPeple}</td>
+              <td contenteditable="true">${game.playTime}</td>
+              <td contenteditable="true"><a href="${game.url}">${game.url}</a></td>
+              <td ><button class="editButton" data-id="${game.id}">変更</button></td>
               <td><button class="deleteButton" data-id="${game.id}">削除</button></td>
             `;
             tbody.appendChild(row);
@@ -79,68 +72,95 @@
 
     const addButton = document.getElementById('addButton');
 
-addButton.addEventListener('click', () =>{
-const addName = document.getElementById('name').value;
-const addAuthor = document.getElementById('author').value;
-const addHowManyPeple = document.getElementById('peaple').value;
-const addPlayTime = document.getElementById('time').value;
-const addUrl = document.getElementById('url').value;
+    addButton.addEventListener('click', () => {
+      const addName = document.getElementById('name').value;
+      const addAuthor = document.getElementById('author').value;
+      const addHowManyPeple = document.getElementById('peaple').value;
+      const addPlayTime = document.getElementById('time').value;
+      const addUrl = document.getElementById('url').value;
 
-// 更新データ
-const updatedData = {
-    name: addName,
-    author: addAuthor,
-    howManyPeple: addHowManyPeple,
-    playTime: addPlayTime,
-    url: addUrl
-};
+      // 更新データ
+      const addData = {
+        name: addName,
+        author: addAuthor,
+        howManyPeple: addHowManyPeple,
+        playTime: addPlayTime,
+        url: addUrl
+      };
 
-fetch('http://localhost:8080/api/products', { 
-    method: 'POST', // <-- POSTメソッドを指定
-    headers: {
-        'Content-Type': 'application/json'
-    },
-    body: JSON.stringify(updatedData) // <-- 更新するJSONデータをボディに含める
-})
-.then(response => {
-    if (response.ok) {
-        return response.json();
-    }
-    throw new Error('Add failed: ' + response.status);
-})
-.then(data => console.log('Add product:', data))
-.catch(error => console.error('Error:', error));
-})
-
-addEventListener('click', (event) => {
-  if (event.target.classList.contains('deleteButton')) {
-    const gameId = event.target.getAttribute('data-id');
-    fetch(`http://localhost:8080/api/products/${gameId}`, {
-      method: 'DELETE'
-    })
-      .then(response => {
-        if (response.ok) {
-          event.target.closest('tr').remove();
-          console.log('Game deleted successfully');
-        } else {
-          throw new Error('Delete failed: ' + response.status);
-        }
+      fetch('http://localhost:8080/api/products', {
+        method: 'POST', // <-- POSTメソッドを指定
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(addData) // <-- 更新するJSONデータをボディに含める
       })
-      .catch(error => console.error('Error deleting game:', error));
-  }});
+        .then(response => {
+          if (response.ok) {
+            return response.json();
+          }
+          throw new Error('Add failed: ' + response.status);
+        })
+        .then(data => console.log('Add product:', data))
+        .catch(error => console.error('Error:', error));
+    })
 
-  addEventListener('click', (event) => {
-    if (event.target.classList.contains('editButton')) {
-      const gameId = event.target.getAttribute('data-id');
-      const row = event.target.closest('tr');
-      const name = row.children[0].textContent;
-      const author = row.children[1].textContent;
-      const howManyPeple = row.children[2].textContent;
-      const playTime = row.children[3].textContent;
-      const url = row.children[4].querySelector('a').href;
+    addEventListener('click', (event) => {
+      if (event.target.classList.contains('deleteButton')) {
+        const gameId = event.target.getAttribute('data-id');
+        fetch(`http://localhost:8080/api/products/${gameId}`, {
+          method: 'DELETE'
+        })
+          .then(response => {
+            if (response.ok) {
+              event.target.closest('tr').remove();
+              console.log('Game deleted successfully');
+            } else {
+              throw new Error('Delete failed: ' + response.status);
+            }
+          })
+          .catch(error => console.error('Error deleting game:', error));
+      }
+    });
 
-      // ここで編集用のフォームを表示する処理を追加
-}});
+    addEventListener('click', (event) => {
+      if (event.target.classList.contains('editButton')) {
+        const gameId = event.target.getAttribute('data-id');
+        const row = event.target.closest('tr');
+        const newName = row.children[0].textContent;
+        const newAuthor = row.children[1].textContent;
+        const newHowManyPeple = row.children[2].textContent;
+        const newPlayTime = row.children[3].textContent;
+        const newUrl = row.children[4].textContent;
+
+        const updatedData = {
+          name: newName,
+          author: newAuthor,
+          howManyPeple: newHowManyPeple,
+          playTime: newPlayTime,
+          url: newUrl
+        };
+
+        console.log('Updating game with ID:', gameId, 'Data:', updatedData);
+
+        fetch(`http://localhost:8080/api/products/${gameId}`, {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(updatedData) // <-- 更新するJSONデータをボディに含める
+        })
+          .then(response => {
+            if (response.ok) {
+              console.log('Game update successfully');
+            } else {
+              throw new Error('Update failed: ' + response.status);
+            }
+          })
+          .catch(error => console.error('Error updating game:', error));
+      }
+    });
   </script>
 </body>
+
 </html>
