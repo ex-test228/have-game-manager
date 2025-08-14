@@ -16,7 +16,7 @@ public class Expansion {
   private Long id;
 
     @ManyToOne // 複数のOrderが1つのUserに紐づく
-    @JoinColumn(name = "game_id") // 外部キーのカラム名を指定
+    @JoinColumn(name = "game_id", nullable = false) // 外部キーのカラム名を指定
     private Product product; // ここでproductオブジェクトを参照
 
   @Column(nullable = false) // カラム名を指定しない場合、フィールド名がそのままカラム名になる。nullable=falseでNOT NULL制約
@@ -58,6 +58,7 @@ public class Expansion {
     this.additionalPoints = additionalPoints;
   }
 
+
   @Override
   public String toString() {
     return "Expansion{" +
@@ -65,5 +66,13 @@ public class Expansion {
         ", name='" + name + '\'' +
         ", additionalPoints='" + additionalPoints + '\'' +
         '}';
+  }
+
+  public Product getProduct() {
+    return product;
+  }
+
+  public void setProduct(Product product) {
+    this.product = product;
   }
 }

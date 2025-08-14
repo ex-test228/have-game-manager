@@ -45,6 +45,13 @@
   <input type="text" id="url" name="url">
   <button type="submit" id="addButton">追加</button>
 
+    <h2>ゲーム追加(拡張)</h2>
+  <label for="nameToExpansion">ゲーム名:</label>
+  <input type="text" id="nameToExpansion" name="nameToExpansion" value="testname" required>
+  <label for="expansionName">拡張名:</label>
+  <input type="text" id="expansionName" name="expansionName" value="testExpansionName" required>
+  <button type="submit" id="addExpansionButton">追加</button>
+
   <script>
 
     addEventListener('DOMContentLoaded', () => {
@@ -53,6 +60,7 @@
         { method: 'GET' })
         .then(response => response.json())
         .then(data => {
+          console.log('Fetched games:', data);
           const tbody = document.querySelector('table tbody');
           data.forEach(game => {
             const row = document.createElement('tr');
@@ -65,6 +73,7 @@
               ${game.expansion}
               </details>
                 ` : ''}
+                <button class="addFormButton" data-id="${game.id}">拡張追加</button>
                </td>
               <td contenteditable="true">${game.author}</td>
               <td contenteditable="true">${game.howManyPeple}</td>
@@ -148,6 +157,72 @@
           howManyPeple: newHowManyPeple,
           playTime: newPlayTime,
           url: newUrl
+        };
+
+        console.log('Updating game with ID:', gameId, 'Data:', updatedData);
+
+        fetch(`http://localhost:8080/api/products/${gameId}`, {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(updatedData) // <-- 更新するJSONデータをボディに含める
+        })
+          .then(response => {
+            if (response.ok) {
+              console.log('Game update successfully');
+            } else {
+              throw new Error('Update failed: ' + response.status);
+            }
+          })
+          .catch(error => console.error('Error updating game:', error));
+      }
+    });
+
+    addEventListener('click', (event) => {
+      if (event.target.classList.contains('addFormButton')) {
+        let expansionName = prompt("追加する拡張の名前", "testex");
+        if (expansionName || expansionName.trim() !== "") {
+        const gameId = event.target.getAttribute('data-id');
+        const row = event.target.closest('tr');
+        const newExpansionName = expansionName;
+
+        const updatedData = {
+          game_id: gameId,
+          name: newExpansionName
+        };
+
+        console.log('Updating game with ID:', gameId, 'Data:', updatedData);
+
+        fetch(`http://localhost:8080/api/Expansions`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(updatedData) // <-- 更新するJSONデータをボディに含める
+        })
+          .then(response => {
+            if (response.ok) {
+              console.log('Game update successfully');
+            } else {
+              throw new Error('Update failed: ' + response.status);
+            }
+          })
+          .catch(error => console.error('Error updating game:', error));
+      
+      }
+    }
+    });
+
+
+    addEventListener('click', (event) => {
+      if (event.target.classList.contains('addExpansionButton')) {
+        const gameId = event.target.getAttribute('data-id');
+        const row = event.target.closest('tr');
+        const newExpansionName = row.children[0].textContent;
+
+        const updatedData = {
+          name: newExpansionName
         };
 
         console.log('Updating game with ID:', gameId, 'Data:', updatedData);

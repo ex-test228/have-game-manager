@@ -14,12 +14,12 @@ import java.util.Optional;
 public class ProductService {
 
     private final ProductRepository productRepository;
-    private final ExpansionRepository ExpansionRepository;
+    // private final ExpansionRepository ExpansionRepository;
 
     // コンストラクタインジェクションでProductRepositoryを注入
     public ProductService(ProductRepository productRepository,ExpansionRepository ExpansionRepository) {
         this.productRepository = productRepository;
-        this.ExpansionRepository = ExpansionRepository;
+        // this.ExpansionRepository = ExpansionRepository;
         // ExpansionRepositoryはProductServiceでは使用されていないが、将来の拡張のために保持している可能性があります。
         // もし不要であれば、削除しても問題ありません。
     }

@@ -1,18 +1,27 @@
 package com.example.app.service;
-
-// import com.example.app.Expansion;
-// import com.example.app.ExpansionRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.example.app.entity.Expansion;
+import com.example.app.entity.Product;
 import com.example.app.repository.ExpansionRepository;
+import com.example.app.repository.ProductRepository;
 
 import java.util.List;
 import java.util.Optional;
 
 @Service // このクラスがSpringのサービスコンポーネントであることを示す
 public class ExpansionService {
+    @Autowired
+    private ProductRepository productRepository;
 
+        public void createExpansion() {
+        Expansion newExpansion = new Expansion();
+        Product existingProduct = productRepository.findById(1L).orElseThrow();
+        newExpansion.setProduct(existingProduct);
+        ExpansionRepository.save(newExpansion);
+    }
+    @Autowired
     private final ExpansionRepository ExpansionRepository;
 
     // コンストラクタインジェクションでExpansionRepositoryを注入

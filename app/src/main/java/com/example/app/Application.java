@@ -11,12 +11,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 public class Application {
 
   @GetMapping("/")
-  public String main(@RequestParam(name = "name", required = false, defaultValue = "Guest") String game,
+  public String main(@RequestParam(required = false, defaultValue = "Guest") String game,
       org.springframework.ui.Model model) {
-
-    String[] games = { "game 1", "game 2", "game 3", "game 4" };
-    model.addAttribute("games", games);
-
     return "main";
   }
 
